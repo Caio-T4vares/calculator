@@ -14,12 +14,21 @@ buttons.forEach((button) => {
 function evalExpression(expression) {
   let operationRegex = /[+\-*\/]/g;
   let operation = expression.match(operationRegex).pop();
-  let leftOperand = parseInt(
-    expression.slice(0, expression.indexOf(operation))
-  );
-  let rightOperand = parseInt(
-    expression.slice(expression.indexOf(operation) + 1)
-  );
+  let leftOperand = 0;
+  let rightOperand = 0;
+  if (expression.match(/[.]/g)) {
+    leftOperand = parseFloat(
+      expression.slice(0, expression.indexOf(operation))
+    );
+    rightOperand = parseFloat(
+      expression.slice(expression.indexOf(operation) + 1)
+    );
+  } else {
+    leftOperand = parseInt(expression.slice(0, expression.indexOf(operation)));
+    rightOperand = parseInt(
+      expression.slice(expression.indexOf(operation) + 1)
+    );
+  }
 
   if (leftOperand === 0 || rightOperand === 0 || operation === "/") {
     alert("It's impossible to divide 0 by 0");
@@ -60,6 +69,9 @@ function handleInput(input) {
       }
       break;
     case ".":
+      if (!displayBot.textContent.match(/[.]/g)) {
+        displayBot.textContent += ".";
+      }
       break;
     case "=":
       if (displayBot.textContent === "" || displayTop.textContent === "") {
@@ -72,7 +84,7 @@ function handleInput(input) {
       waitingSecondOperand = false;
       break;
     case "Clear":
-      displayBot.textContent = "0";
+      displayBot.textContent = "";
       displayTop.textContent = "";
       waitingSecondOperand = false;
       break;
