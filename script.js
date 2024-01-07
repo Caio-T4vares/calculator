@@ -30,7 +30,7 @@ function evalExpression(expression) {
     );
   }
 
-  if (leftOperand === 0 || rightOperand === 0 || operation === "/") {
+  if (leftOperand === 0 && rightOperand === 0 && operation === "/") {
     alert("It's impossible to divide 0 by 0");
     return "";
   }
